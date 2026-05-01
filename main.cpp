@@ -60,5 +60,25 @@ int main() {
         std::cout << "Le trajet le plus rapide entre ID 0 et ID 1 prend : " << matriceTemps[0][1] << " minutes." << std::endl;
     }
 
+    // ------------------------------------------------------------------------------------------------------
+    // --- TEST DE LA PARTIE 3 : TROUVER L'ID A PARTIR DU NOM ---
+    std::cout << "\n--- Test Recherche ID ---" << std::endl;
+    
+    std::string villeCherchee1 = "Rennes";
+    int idTrouve1 = trouverIdVille(villeCherchee1, mesVilles);
+    if (idTrouve1 != -1) {
+        std::cout << "L'ID de " << villeCherchee1 << " est : " << idTrouve1 << std::endl;
+    } else {
+        std::cout << villeCherchee1 << " n'a pas ete trouvee dans la liste." << std::endl;
+    }
+
+    std::string villeCherchee2 = "Atlantis"; // Une ville qui n'existe pas
+    int idTrouve2 = trouverIdVille(villeCherchee2, mesVilles);
+    if (idTrouve2 != -1) {
+        std::cout << "L'ID de " << villeCherchee2 << " est : " << idTrouve2 << std::endl;
+    } else {
+        std::cout << villeCherchee2 << " n'a pas ete trouvee dans la liste" << std::endl;
+    }
+
     return 0; 
 }

@@ -37,3 +37,40 @@ std::vector<Ville> lireVilles(const std::string& nomFichier) {
     fichier.close();
     return listeVilles;
 }
+
+std::vector<std::vector<int>> lireTemps(const std::string& nomFichier, size_t tailleMax) {
+    // ici on cree la matrice 2D 
+    // et cette syntaxe veut dire, cree moi tailleMax lignes, et pour chaque ligne, cree 
+    // un tableau(vecteur) de taille tailleMax et le remplir avec des INFINI.
+    std::vector<std::vector<int>> matrice(tailleMax, std::vector<int>(tailleMax, INFINI));
+
+    // ici on met 0 pour les cases sur la diagonale 
+    // vu que le temps de trajet d'une ville à elle meme est 0
+    for (size_t i = 0; i < tailleMax; i++) {
+        matrice[i][i] = 0;
+    }
+
+    // now on lit le fichier temps.csv pour remplir la matrice
+    std::ifstream fichier(nomFichier);
+    if (!fichier.is_open()) {
+        std::cerr << "Erreur: Impossible d'ouvrir le fichier " << nomFichier << std::endl;
+        return matrice; 
+    }
+
+    size_t id1, id2;
+    int temps;
+    char virgule;
+
+    while (fichier >> id1 >> virgule >> id2 >> virgule >> temps) {
+        
+        // ici on vérifie juste que les ID ne dépassent pas la taille de notre matrice
+        if (id1 < tailleMax && id2 < tailleMax) {
+            // et comme le graphe n'est pas orienter la route peut se prendre dans les deux sens
+            matrice[id1][id2] = temps;
+            matrice[id2][id1] = temps;
+        }
+    }
+
+    fichier.close();
+    return matrice;
+}

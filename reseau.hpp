@@ -22,4 +22,9 @@ const int INFINI = 999999;
 // la tailleMax va etre le nombre total de ville
 std::vector<std::vector<int>> lireTemps(const std::string& nomFichier, size_t tailleMax);
 
+// -------------------------------------------------------------------------------------------------------
+// now on applique l'algorithme de Floyd-Warshall pour trouver les plus courts chemins
+// ici on passe la matrice par référence car on ne veut pas le recopier il est lourd, et on met pas le const car on veut le modifier
+void appliquerFloydWarshall(std::vector<std::vector<int>>& matrice);
+
 #endif

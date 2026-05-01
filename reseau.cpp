@@ -1,6 +1,7 @@
 #include "reseau.hpp"
 #include <iostream>
 #include <fstream>
+#include <algorithm> 
 
 std::vector<Ville> lireVilles(const std::string& nomFichier) {
     std::vector<Ville> listeVilles;
@@ -73,4 +74,16 @@ std::vector<std::vector<int>> lireTemps(const std::string& nomFichier, size_t ta
 
     fichier.close();
     return matrice;
+}
+
+void appliquerFloydWarshall(std::vector<std::vector<int>>& W) {
+    size_t n = W.size();
+
+    for (size_t k = 0; k < n; k++) {
+        for (size_t u = 0; u < n; u++) {
+            for (size_t v = 0; v < n; v++) {
+                W[u][v] = std::min(W[u][v], W[u][k] + W[k][v]);
+            }
+        }
+    }
 }

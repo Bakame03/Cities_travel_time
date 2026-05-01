@@ -42,7 +42,23 @@ int main() {
     } else {
         std::cout << "Temps entre ID 0 et ID 1 : " << matriceTemps[0][1] << " minutes." << std::endl;
     }
+
+    // ------------------------------------------------------------------------------------------------------
+    // --- FLOYD-WARSHALL ---
+    std::cout << "\nCalcul des plus courts chemins" << std::endl;
+    appliquerFloydWarshall(matriceTemps);
+    std::cout << "Calcul terminE" << std::endl;
+
+    // --- TEST APRES L'ALGORITHME ---
+    // Avant l'algorithme, ce trajet was at INFINI  
+    // nowo with Floyd-Warshall we found other chemin en passant par d'autres villes
+    std::cout << "\n--- Test Matrice Apres Floyd-Warshall ---" << std::endl;
     
+    if (matriceTemps[0][1] == INFINI) {
+        std::cout << "Temps entre ID 0 et ID 1 : Toujours pas de route (INFINI)" << std::endl;
+    } else {
+        std::cout << "Le trajet le plus rapide entre ID 0 et ID 1 prend : " << matriceTemps[0][1] << " minutes." << std::endl;
+    }
 
     return 0; 
 }

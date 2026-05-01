@@ -27,4 +27,9 @@ std::vector<std::vector<int>> lireTemps(const std::string& nomFichier, size_t ta
 // ici on passe la matrice par référence car on ne veut pas le recopier il est lourd, et on met pas le const car on veut le modifier
 void appliquerFloydWarshall(std::vector<std::vector<int>>& matrice);
 
+//----------------------------------------------------------------------------------------------
+// Fonction pour trouver l'ID d'une ville à partir de son nom
+// Retourne un int pour pouvoir renvoyer -1 si la ville n'est pas trouvée
+int trouverIdVille(const std::string& nomCible, const std::vector<Ville>& listeVilles);
+
 #endif

@@ -87,3 +87,15 @@ void appliquerFloydWarshall(std::vector<std::vector<int>>& W) {
         }
     }
 }
+
+int trouverIdVille(const std::string& nomCible, const std::vector<Ville>& listeVilles) {
+    // On parcourt tout le tableau des villes
+    for (size_t i = 0; i < listeVilles.size(); i++) {
+        // Si le nom correspond à ce qu'on cherche
+        if (listeVilles[i].nom == nomCible) {
+            return listeVilles[i].id; // On retourne son ID et on quitte la fonction
+        }
+    }
+    // Si la boucle se termine sans avoir fait de 'return', c'est que la ville n'existe pas
+    return -1; 
+}

@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
     // ----------------------------------------------
 
     // ici on cree la fenetre principale qui vas etre parent des autres QWidgets
-    FenetrePrincipale fenetre;
+    FenetrePrincipale fenetre(mesVilles, matriceTemps);
 
     // par defaut une fenetre est invisible, so on demande de l'afficher
     fenetre.show();

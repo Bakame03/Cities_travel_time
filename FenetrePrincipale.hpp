@@ -19,7 +19,9 @@ class FenetrePrincipale : public QMainWindow {
 
     public:
         // le constructeur, il prend un parent nul par defaut coz c'est la fenetre de base
-        FenetrePrincipale(QWidget *parent = nullptr);
+        // et prends aussi les villes et la matrice de temps
+        FenetrePrincipale(std::vector<Ville> villes, std::vector<std::vector<int>> matrice, QWidget *parent = nullptr);
+
         // le destructeur
         ~FenetrePrincipale();
 
@@ -34,6 +36,10 @@ class FenetrePrincipale : public QMainWindow {
         
         // Le widget central qui va servir de conteneur global pour le layout
         QWidget *widgetCentral;
+
+        // ici c'est la ou on vas stocker les villes et la matrice de temps pour pouvoir les utiliser quand on veux        
+        std::vector<Ville> listeVilles;
+        std::vector<std::vector<int>> matriceTemps; q
 };
 
 #endif

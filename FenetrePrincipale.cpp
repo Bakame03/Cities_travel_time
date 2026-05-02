@@ -1,10 +1,10 @@
 #include "FenetrePrincipale.hpp"
 
 // le constructeur : c'est ici qu'on build notre fenetre quand l'appli se lance
-FenetrePrincipale::FenetrePrincipale(QWidget *parent) : QMainWindow(parent) {
+FenetrePrincipale::FenetrePrincipale(std::vector<Ville> villes, std::vector<std::vector<int>> matrice, QWidget *parent) 
+    : QMainWindow(parent), listeVilles(villes), matriceTemps(matrice) {
     
     // pour donner le titre a la fenetre
-    // pour donner le titre de la fenetre
     setWindowTitle("Calculateur de Temps de Trajet");
     
     // pour donner aussi la taille de depart (largeur, hauteur)
@@ -19,11 +19,12 @@ FenetrePrincipale::FenetrePrincipale(QWidget *parent) : QMainWindow(parent) {
     boutonCalculer = new QPushButton("Calculer le trajet", widgetCentral);
     labelResultat = new QLabel("Le resultat s'affichera ici...", widgetCentral);
 
-    // (juste pour tester l'affichage, on met des fausses villes pour l'instant)
-    comboDepart->addItem("Paris");
-    comboDepart->addItem("Lyon");
-    comboArrivee->addItem("Marseille");
-    comboArrivee->addItem("Bordeaux");
+    // pour remplir les combobox avec les noms des villes
+    for (size_t i = 0; i < listeVilles.size(); i++) {
+        // on utilise QString::fromStdString pour traduire du C++ classique vers Qt
+        comboDepart->addItem(QString::fromStdString(listeVilles[i].nom));
+        comboArrivee->addItem(QString::fromStdString(listeVilles[i].nom));
+    }
 
     // pour la creation du layout (rangeur de boites vertical)
     layoutPrincipal = new QVBoxLayout();

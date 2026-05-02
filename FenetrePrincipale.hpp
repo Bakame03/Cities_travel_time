@@ -39,7 +39,7 @@ class FenetrePrincipale : public QMainWindow {
 
         // ici c'est la ou on vas stocker les villes et la matrice de temps pour pouvoir les utiliser quand on veux        
         std::vector<Ville> listeVilles;
-        std::vector<std::vector<int>> matriceTemps; q
+        std::vector<std::vector<int>> matriceTemps;         
 };
 
 #endif

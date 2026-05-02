@@ -1,84 +1,33 @@
 #include <iostream>
 #include <vector>
+
+// ici c'est pour le moteur global de Qt
+#include <QApplication>
+
 #include "reseau.hpp"
+#include "FenetrePrincipale.hpp"
 
-int main() {
-    // ------------------------------------------------------------------------------------------------------
-    // --- TEST DE LA PARTIE 1 : LECTURE DU FICHIER VILLES.CSV ---
+int main(int argc, char *argv[]) {
+    // ici on initialise l'appli Qt pour que ca s'affiche et que ca reste ouvert pour qu'on puisse interagir avec elle
+    QApplication app(argc, argv);
 
+    // on garde le moteur pour etre ready
+    std::cout << "--- DEMARRAGE DU MOTEUR ---" << std::endl;
     std::vector<Ville> mesVilles = lireVilles("villes.csv");
-
-    // pour verifier si le vecteur est vide
-    if (mesVilles.empty()) {
-        std::cout << "La liste de villes est vide. Le programme va s'arrêter." << std::endl;
-        return 1; // On quitte le programme avec un code d'erreur (1)
+    if (!mesVilles.empty()) {
+        std::vector<std::vector<int>> matriceTemps = lireTemps("temps.csv", mesVilles.size());
+        appliquerFloydWarshall(matriceTemps);
+        std::cout << "Moteur initialise ! Les donnees sont pretes en arriere-plan.\n" << std::endl;
     }
+    // ----------------------------------------------
 
-    // juste pour afficher le nombre total de villes lu
-    std::cout << "Nombre total de villes : " << mesVilles.size() << std::endl;
+    // ici on cree la fenetre principale qui vas etre parent des autres QWidgets
+    FenetrePrincipale fenetre;
 
-    // juste pour afficher les 5 premier ville pour verifier que les donnes sont bonnes
-    std::cout << "--- Affichage des 5 premieres villes ---" << std::endl;
-    
-    for (size_t i = 0; i < 5; i++) {
-        std::cout << "Ville ID : " << mesVilles[i].id << " --- Nom : " << mesVilles[i].nom << std::endl;
-    }
+    // par defaut une fenetre est invisible, so on demande de l'afficher
+    fenetre.show();
 
-    // ------------------------------------------------------------------------------------------------------
-    // --- TEST DE LA PARTIE 2 : LECTURE DU FICHIER TEMPS.CSV ---
-
-    // ici on passe le nombre de villes qu'on a trouvé (mesVilles.size()) 
-    // pour avoir une matrice 2D de meme dimension que le nombre total de ville
-    std::vector<std::vector<int>> matriceTemps = lireTemps("temps.csv", mesVilles.size());
-
-    // Et pour tester si la matrice est bonne, on prend juste deux villes au hasard 
-    // Et on affiche le temps entre les deux
-    std::cout << "\n--- Test Matrice ---" << std::endl;
-    std::cout << "Temps entre ID 5 et ID 62 : " << matriceTemps[5][62] << " minutes." << std::endl;
-    
-    // Et un test pour une ville sans route directe vers une autre (par exemple 0 et 1)
-    if (matriceTemps[0][1] == INFINI) {
-        std::cout << "Temps entre ID 0 et ID 1 : Pas de route directe (INFINI)" << std::endl;
-    } else {
-        std::cout << "Temps entre ID 0 et ID 1 : " << matriceTemps[0][1] << " minutes." << std::endl;
-    }
-
-    // ------------------------------------------------------------------------------------------------------
-    // --- FLOYD-WARSHALL ---
-    std::cout << "\nCalcul des plus courts chemins" << std::endl;
-    appliquerFloydWarshall(matriceTemps);
-    std::cout << "Calcul terminE" << std::endl;
-
-    // --- TEST APRES L'ALGORITHME ---
-    // Avant l'algorithme, ce trajet was at INFINI  
-    // nowo with Floyd-Warshall we found other chemin en passant par d'autres villes
-    std::cout << "\n--- Test Matrice Apres Floyd-Warshall ---" << std::endl;
-    
-    if (matriceTemps[0][1] == INFINI) {
-        std::cout << "Temps entre ID 0 et ID 1 : Toujours pas de route (INFINI)" << std::endl;
-    } else {
-        std::cout << "Le trajet le plus rapide entre ID 0 et ID 1 prend : " << matriceTemps[0][1] << " minutes." << std::endl;
-    }
-
-    // ------------------------------------------------------------------------------------------------------
-    // --- TEST DE LA PARTIE 3 : TROUVER L'ID A PARTIR DU NOM ---
-    std::cout << "\n--- Test Recherche ID ---" << std::endl;
-    
-    std::string villeCherchee1 = "Rennes";
-    int idTrouve1 = trouverIdVille(villeCherchee1, mesVilles);
-    if (idTrouve1 != -1) {
-        std::cout << "L'ID de " << villeCherchee1 << " est : " << idTrouve1 << std::endl;
-    } else {
-        std::cout << villeCherchee1 << " n'a pas ete trouvee dans la liste." << std::endl;
-    }
-
-    std::string villeCherchee2 = "Atlantis"; // Une ville qui n'existe pas
-    int idTrouve2 = trouverIdVille(villeCherchee2, mesVilles);
-    if (idTrouve2 != -1) {
-        std::cout << "L'ID de " << villeCherchee2 << " est : " << idTrouve2 << std::endl;
-    } else {
-        std::cout << villeCherchee2 << " n'a pas ete trouvee dans la liste" << std::endl;
-    }
-
-    return 0; 
+    // ici la boucle infinie : ca bloque le programme ici et ca ecoute les clics de l'user.
+    // quand on ferme la fenetre, ca return 0 et ca termine le programme
+    return app.exec();
 }

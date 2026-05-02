@@ -14,11 +14,14 @@ int main(int argc, char *argv[]) {
     // on garde le moteur pour etre ready
     std::cout << "--- DEMARRAGE DU MOTEUR ---" << std::endl;
     std::vector<Ville> mesVilles = lireVilles("villes.csv");
-    if (!mesVilles.empty()) {
-        std::vector<std::vector<int>> matriceTemps = lireTemps("temps.csv", mesVilles.size());
-        appliquerFloydWarshall(matriceTemps);
-        std::cout << "Moteur initialise ! Les donnees sont pretes en arriere-plan.\n" << std::endl;
+    if (mesVilles.empty()) {
+        std::cerr << "Erreur : Impossible de charger les villes." << std::endl;
+        return 1;
     }
+    
+    std::vector<std::vector<int>> matriceTemps = lireTemps("temps.csv", mesVilles.size());
+    appliquerFloydWarshall(matriceTemps);
+    std::cout << "Moteur initialise ! Les donnees sont pretes en arriere-plan.\n" << std::endl; 
 
     // ici on cree la fenetre principale qui vas etre parent des autres QWidgets
     FenetrePrincipale fenetre(mesVilles, matriceTemps);

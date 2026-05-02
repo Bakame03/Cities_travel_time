@@ -3,23 +3,49 @@
 // le constructeur : c'est ici qu'on build notre fenetre quand l'appli se lance
 FenetrePrincipale::FenetrePrincipale(QWidget *parent) : QMainWindow(parent) {
     
-    // on donne un petit titre a notre fenetre
+    // pour donner le titre a la fenetre
+    // pour donner le titre de la fenetre
     setWindowTitle("Calculateur de Temps de Trajet");
     
-    // on set la taille de depart (largeur, hauteur)
+    // pour donner aussi la taille de depart (largeur, hauteur)
     resize(600, 400);
 
-    // on cree notre bouton en memoire dynamique avec 'new'
-    // le 'this' veut dire "ton parent c'est la fenetre". 
-    // et comme dans le .hpp on a fait QPushButton * , la fenetre vas le delete automatically a la fin
-    boutonTest = new QPushButton("Mon Premier Bouton !", this);
+    // pour la creation du widget central
+    widgetCentral = new QWidget(this);
 
-    // et dans un QMainWindow, on doit lui dire 
-    // quel widget vas prendre toute la place au milieu de l'ecran
-    setCentralWidget(boutonTest);
+    // creation des widgets necessaire pour l'interface
+    comboDepart = new QComboBox(widgetCentral);
+    comboArrivee = new QComboBox(widgetCentral);
+    boutonCalculer = new QPushButton("Calculer le trajet", widgetCentral);
+    labelResultat = new QLabel("Le resultat s'affichera ici...", widgetCentral);
+
+    // (juste pour tester l'affichage, on met des fausses villes pour l'instant)
+    comboDepart->addItem("Paris");
+    comboDepart->addItem("Lyon");
+    comboArrivee->addItem("Marseille");
+    comboArrivee->addItem("Bordeaux");
+
+    // pour la creation du layout (rangeur de boites vertical)
+    layoutPrincipal = new QVBoxLayout();
+
+    // ici on fait le rangement des widgets en ajoutant des labels explicatifs
+    layoutPrincipal->addWidget(new QLabel("Ville de depart :", widgetCentral));
+    layoutPrincipal->addWidget(comboDepart);
+    
+    layoutPrincipal->addWidget(new QLabel("Ville d'arrivee :", widgetCentral));
+    layoutPrincipal->addWidget(comboArrivee);
+    
+    layoutPrincipal->addWidget(boutonCalculer);
+    layoutPrincipal->addWidget(labelResultat);
+
+    // on ajoute du coup le layout au widget central
+    widgetCentral->setLayout(layoutPrincipal);
+
+    // on dit a la fenetre que sa partie principale, c'est ce widget central
+    setCentralWidget(widgetCentral);
 }
 
 // le destructeur : on a rien a ecrire here coz the parent (QMainWindow) 
-// s'occupe de tuer ses enfants (notre bouton) all by itself comme un grand car we used * on them
+// s'occupe de tuer ses enfants (les QWidgets) all by itself comme un grand car on a utiliser * sur eux
 FenetrePrincipale::~FenetrePrincipale() {
 }

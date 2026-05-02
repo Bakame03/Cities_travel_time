@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
 
     // par defaut une fenetre est invisible, so on demande de l'afficher
     fenetre.show();
-
+                
     // ici la boucle infinie : ca bloque le programme ici et ca ecoute les clics de l'user.
     // quand on ferme la fenetre, ca return 0 et ca termine le programme
     return app.exec();

@@ -10,16 +10,16 @@ FenetrePrincipale::FenetrePrincipale(QWidget *parent) : QMainWindow(parent) {
     resize(600, 400);
 
     // on cree notre bouton en memoire dynamique avec 'new'
-    // le 'this' veut dire "ton parent c'est moi (la fenetre)". 
-    // thanks to that, la fenetre va le delete automatically a la fin !
+    // le 'this' veut dire "ton parent c'est la fenetre". 
+    // et comme dans le .hpp on a fait QPushButton * , la fenetre vas le delete automatically a la fin
     boutonTest = new QPushButton("Mon Premier Bouton !", this);
 
-    // the tricky part : dans un QMainWindow, t'es OBLIGE de lui dire 
-    // quel widget va prendre toute la place au milieu de l'ecran. 
+    // et dans un QMainWindow, on doit lui dire 
+    // quel widget vas prendre toute la place au milieu de l'ecran
     setCentralWidget(boutonTest);
 }
 
 // le destructeur : on a rien a ecrire here coz the parent (QMainWindow) 
-// s'occupe de tuer ses enfants (notre bouton) all by itself comme un grand
+// s'occupe de tuer ses enfants (notre bouton) all by itself comme un grand car we used * on them
 FenetrePrincipale::~FenetrePrincipale() {
 }

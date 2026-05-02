@@ -26,6 +26,10 @@ FenetrePrincipale::FenetrePrincipale(std::vector<Ville> villes, std::vector<std:
         comboArrivee->addItem(QString::fromStdString(listeVilles[i].nom));
     }
 
+    // pour brancher le signal (clic) au slot  
+    // Ca se lit : "Connecte le boutonCalculer, sur son action 'clicked', a cette fenetre ('this'), en lancant 'calculerTrajet'"
+    connect(boutonCalculer, &QPushButton::clicked, this, &FenetrePrincipale::calculerTrajet);
+
     // pour la creation du layout (rangeur de boites vertical)
     layoutPrincipal = new QVBoxLayout();
 
@@ -49,4 +53,31 @@ FenetrePrincipale::FenetrePrincipale(std::vector<Ville> villes, std::vector<std:
 // le destructeur : on a rien a ecrire here coz the parent (QMainWindow) 
 // s'occupe de tuer ses enfants (les QWidgets) all by itself comme un grand car on a utiliser * sur eux
 FenetrePrincipale::~FenetrePrincipale() {
+}
+
+// ici on execute le code quand on clique sur le bouton 
+void FenetrePrincipale::calculerTrajet() {
+    
+    // on lit ce qu'il y a d'ecrit dans les deux QComboBox
+    // on traduit le texte Qt en std::string classique de C++
+    std::string nomDepart = comboDepart->currentText().toStdString();
+    std::string nomArrivee = comboArrivee->currentText().toStdString();
+
+    // on demande au back-end (reseau.cpp) de nous trouver les IDs correspondants
+    size_t idDepart = trouverIdVille(nomDepart, listeVilles);
+    size_t idArrivee = trouverIdVille(nomArrivee, listeVilles);
+
+    // now maintenant we can chercher le temps de trajet dans notre matrice de Floyd-Warshall
+    int temps = matriceTemps[idDepart][idArrivee];
+
+    // on met a jour l'affichage en bas de la fenetre
+    if (temps == INFINI) {
+        labelResultat->setText("Il n'y a pas de trajet possible entre ces deux villes.");
+    } else if (temps == 0) {
+        labelResultat->setText("Vous etes deja a destination !");
+    } else {
+        // QString::number() convertit un int en texte Qt
+        QString message = "Le trajet le plus rapide prend : " + QString::number(temps) + " minutes.";
+        labelResultat->setText(message);
+    }
 }

@@ -88,7 +88,7 @@ void appliquerFloydWarshall(std::vector<std::vector<int>>& W) {
     }
 }
 
-int trouverIdVille(const std::string& nomCible, const std::vector<Ville>& listeVilles) {
+size_t trouverIdVille(const std::string& nomCible, const std::vector<Ville>& listeVilles) {
     // On parcourt tout le tableau des villes
     for (size_t i = 0; i < listeVilles.size(); i++) {
         // Si le nom correspond à ce qu'on cherche

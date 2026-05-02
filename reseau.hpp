@@ -30,6 +30,6 @@ void appliquerFloydWarshall(std::vector<std::vector<int>>& matrice);
 //----------------------------------------------------------------------------------------------
 // Fonction pour trouver l'ID d'une ville à partir de son nom
 // Retourne un int pour pouvoir renvoyer -1 si la ville n'est pas trouvée
-int trouverIdVille(const std::string& nomCible, const std::vector<Ville>& listeVilles);
+size_t trouverIdVille(const std::string& nomCible, const std::vector<Ville>& listeVilles);
 
 #endif

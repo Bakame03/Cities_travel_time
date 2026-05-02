@@ -23,8 +23,10 @@ CONFIG += c++11 console
 # et ici on met la liste des fichiers .cpp (les Sources)
 SOURCES += \
     main.cpp \
-    reseau.cpp
+    reseau.cpp \
+    FenetrePrincipale.cpp
 
-# et ici on met la liste des fichiers .hpp 
+# et ici on met la liste des fichiers .hpp
 HEADERS += \
-    reseau.hpp
+    reseau.hpp \
+    FenetrePrincipale.hpp

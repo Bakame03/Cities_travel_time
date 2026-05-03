@@ -1,5 +1,8 @@
 #include "FenetrePrincipale.hpp"
 
+// so that we can be able to use sort function
+#include <algorithm> 
+
 // le constructeur : c'est ici qu'on build notre fenetre quand l'appli se lance
 FenetrePrincipale::FenetrePrincipale(std::vector<Ville> villes, std::vector<std::vector<int>> matrice, QWidget *parent) 
     : QMainWindow(parent), listeVilles(villes), matriceTemps(matrice) {
@@ -19,12 +22,28 @@ FenetrePrincipale::FenetrePrincipale(std::vector<Ville> villes, std::vector<std:
     boutonCalculer = new QPushButton("Calculer le trajet", widgetCentral);
     labelResultat = new QLabel("Le resultat s'affichera ici...", widgetCentral);
 
+    // Le tri des villes
+    // il faut trier la liste de villes par ordre alphabetique
+    // ici j'utilise une fonction "lambda" pour dire a std::sort 
+    // qu'il doit comparer le champ 'nom' de chaque structure Ville.
+    std::sort(listeVilles.begin(), listeVilles.end(), [](const Ville& a, const Ville& b) {
+        return a.nom < b.nom;
+    });
+
     // pour remplir les combobox avec les noms des villes
     for (size_t i = 0; i < listeVilles.size(); i++) {
         // on utilise QString::fromStdString pour traduire du C++ classique vers Qt
         comboDepart->addItem(QString::fromStdString(listeVilles[i].nom));
         comboArrivee->addItem(QString::fromStdString(listeVilles[i].nom));
     }
+    
+    // on rend les listes "editables" (on peut taper dedans pour filtrer visuellement)
+    comboDepart->setEditable(true);
+    comboArrivee->setEditable(true);
+
+    // on bloque l'insertion pour empecher le user d'ajouter des villes car c'est pas lui l'admin
+    comboDepart->setInsertPolicy(QComboBox::NoInsert);
+    comboArrivee->setInsertPolicy(QComboBox::NoInsert);
 
     // pour brancher le signal (clic) au slot  
     // Ca se lit : "Connecte le boutonCalculer, sur son action 'clicked', a cette fenetre ('this'), en lancant 'calculerTrajet'"

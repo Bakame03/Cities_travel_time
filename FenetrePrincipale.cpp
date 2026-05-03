@@ -86,6 +86,13 @@ void FenetrePrincipale::calculerTrajet() {
     size_t idDepart = trouverIdVille(nomDepart, listeVilles);
     size_t idArrivee = trouverIdVille(nomArrivee, listeVilles);
 
+    // Si l'une des villes n'est pas trouvee (ou vide), affiche une erreur et on stoppe
+    // vu qu'on compare un size_t avec -1, il faut caster
+    if (static_cast<int>(idDepart) == -1 || static_cast<int>(idArrivee) == -1) {
+        labelResultat->setText("Veuillez choisir des villes valides dans la liste !");
+        return; // arrete la fonction ici
+    }
+
     // now maintenant we can chercher le temps de trajet dans notre matrice de Floyd-Warshall
     int temps = matriceTemps[idDepart][idArrivee];
 
